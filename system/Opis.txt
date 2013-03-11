@@ -1,0 +1,8 @@
+Katalog zawiera kody stworzonego systemu. W celu uruchomienia go nale¿y w œrodowisku Matlab R2008a (b¹dŸ nowszym) ustawiæ bie¿¹cy katalog na katalog aktywny. Nastêpnie uruchomiæ skrypt ustawiaj¹cy œcie¿ki: setupEnv. Dostêpne narzêdzia:
+ - nProcessor
+ - quark 
+ - gui3dPtSelector
+
+Katalog DataConverters zawiera stworzone konwertery danych.
+Kagalog inDane zawiera pliki wejœciowe pochodz¹ce z baz danych obrazów 3D.
+Kagalog java zawiera Ÿród³a metod stworzonych w jêzyku Java. 

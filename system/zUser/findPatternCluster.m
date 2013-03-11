@@ -1,0 +1,33 @@
+function [patternClusterNo patternMatchingCosts noOfClusters clusterPts n spinImgs selIxs] = ...
+findPatternCluster(pts, ptCluster, ...
+patternSpinImgs, noOfSeedPoints, neigborhoodRadius, ...
+spinDistance, alfaBins, betaBins, alfaAxes, betaAxes, ...
+matchingRule, matchingDistanceType)
+%Estimates matching cost for each cluster and selects one that is the most 
+%probable to be pattern cluster.
+%Parameters:
+% patternSpinImgs - pattern descriptor.
+% noOfSeedPoints - no of feature points to be generated for
+% every cluster.
+% neigborhoodRadius - neigborhood radius used for normal vecs' generation.
+% spinDistance, alfaBins, betaBins, alfaAxes, betaAxes - descriptor params.
+% matchingRule, matchingDistanceType - matching params.
+%Returns:
+% patternClusterNo - selected cluster
+% patternMatchingCosts - cluster matching costs
+% noOfClusters - no of clusters
+% clusterPts n spinImgs selIxs - cells of clusters data
+
+%read from database pattern:
+% patternSpinImgs = ioRestoreModelDescriptor(patternSpinDescFile);
+
+
+[noOfClusters clusterPts selIxs n spinImgs] =  generateClusterData(...
+    pts, ptCluster, ...
+    noOfSeedPoints, neigborhoodRadius, ...
+    spinDistance, alfaBins, betaBins, alfaAxes, betaAxes);
+
+[patternClusterNo patternClusterCost patternMatchingCosts] = ...
+    matchToPatternCluster(patternSpinImgs, noOfClusters, ...
+    selIxs, spinImgs, ...
+    matchingRule, matchingDistanceType);

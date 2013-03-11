@@ -1,0 +1,13 @@
+package pl.quark;
+
+public class Stat
+{
+	public double min = Double.MIN_VALUE;
+	public double max = Double.MAX_VALUE;
+	public double mean = 0;
+	
+	public Stat()
+	{
+	
+	}
+}

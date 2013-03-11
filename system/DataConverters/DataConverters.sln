@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChBinReader", "ChBinReader\ChBinReader.vcproj", "{24D55ECE-57EC-4A44-BF7B-56795CC4A762}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WrlReader", "WrlReader\WrlReader.vcproj", "{2FF8C998-A6AB-409F-B40D-557D74026D39}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24D55ECE-57EC-4A44-BF7B-56795CC4A762}.Debug|Win32.ActiveCfg = Debug|Win32
+		{24D55ECE-57EC-4A44-BF7B-56795CC4A762}.Debug|Win32.Build.0 = Debug|Win32
+		{24D55ECE-57EC-4A44-BF7B-56795CC4A762}.Release|Win32.ActiveCfg = Release|Win32
+		{24D55ECE-57EC-4A44-BF7B-56795CC4A762}.Release|Win32.Build.0 = Release|Win32
+		{2FF8C998-A6AB-409F-B40D-557D74026D39}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2FF8C998-A6AB-409F-B40D-557D74026D39}.Debug|Win32.Build.0 = Debug|Win32
+		{2FF8C998-A6AB-409F-B40D-557D74026D39}.Release|Win32.ActiveCfg = Release|Win32
+		{2FF8C998-A6AB-409F-B40D-557D74026D39}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,155 @@
+package pl.quark;
+
+import java.util.*;
+
+class Oct 
+{
+	private double minx;
+	private double miny;
+	private double minz;
+	
+	private double maxx;
+	private double maxy;
+	private double maxz;
+	
+	private LinkedList<Integer> elIx = new LinkedList<Integer>();
+	
+	public Oct(double _minx, double _miny, double _minz, 
+			double _maxx, double _maxy, double _maxz,
+			int noOfElements)
+	{
+		minx = _minx;
+		miny = _miny;
+		minz = _minz;
+		
+		maxx = _maxx;
+		maxy = _maxy;
+		maxz = _maxz;
+		
+		for (int i = 0; i < noOfElements; ++i)
+		{
+			elIx.add(i);
+		}
+	}
+	
+	public Oct(double _minx, double _miny, double _minz, 
+			double _maxx, double _maxy, double _maxz)
+	{
+		minx = _minx;
+		miny = _miny;
+		minz = _minz;
+		
+		maxx = _maxx;
+		maxy = _maxy;
+		maxz = _maxz;
+	}
+	
+	public int size()
+	{
+		return elIx.size();		
+	}
+	
+	public void add(int ix)
+	{
+		elIx.add(ix);
+	}
+	
+	public void getDiscance(Oct c)
+	{		
+		double x = 0.5 * (maxx + minx);
+		double y = 0.5 * (maxy + miny);
+		double z = 0.5 * (maxz + minz);
+		
+		double cx = 0.5 * (c.maxx + c.minx);
+		double cy = 0.5 * (c.maxy + c.miny);
+		double cz = 0.5 * (c.maxz + c.minz);
+		
+		return sqrt( (cx-x)*(cx-x) + (cy-y)*(cy-y) + (cz-z)*(cz-z));    
+	}
+
+	/**
+	 * Rozdziela klaster na 8 innych. 
+	 */
+	public LinkedList<Oct> split(double[] x, double[] y, double[] z)
+	{
+		//Przygotowanie danych:
+		LinkedList<Oct> children = new LinkedList<Oct>();
+		
+		double meanx = 0.5 * (maxx + minx);
+		double meany = 0.5 * (maxy + miny);
+		double meanz = 0.5 * (maxz + minz);
+		
+		/* f1 f2  b1 b2 
+		 * f3 f4  b3 b4 */
+		
+		Oct f1 = new Oct(minx, meany, minz,  meanx, maxy, meanz);
+		Oct f2 = new Oct(minx, meany, meanz,  meanx, maxy, maxz );
+		Oct f3 = new Oct(minx, miny, minz,  meanx, meany, meanz);
+		Oct f4 = new Oct(minx, miny, meanz,  meanx, meany, maxz);
+
+		Oct b1 = new Oct(meanx, meany, minz,  maxx, maxy, meanz);
+		Oct b2 = new Oct(meanx, meany, meanz,  maxx, maxy, maxz);
+		Oct b3 = new Oct(meanx, miny, minz,  maxx, meany, meanz);
+		Oct b4 = new Oct(meanx, miny, meanz,  maxx, meany, maxz);
+		
+		//Podzielenie elementów miêdzy dzieci
+		for (Integer ix: elIx)
+		{
+			if (x[ix]<meanx)
+			{
+				if (y[ix]<meany)
+				{
+					if (z[ix]<meanz)
+					{
+						f3.add(ix);
+					} else // z >= meanz
+					{
+						f4.add(ix);
+					}
+				} else //y >= meany
+				{
+					if (z[ix]<meanz)
+					{
+						f1.add(ix);
+					} else // z >= meanz
+					{
+						f2.add(ix);
+					}
+				}
+			} else  //x >= meanx
+			{
+				if (y[ix]<meany)
+				{
+					if (z[ix]<meanz)
+					{
+						b3.add(ix);
+					} else // z >= meanz
+					{
+						b4.add(ix);
+					}
+				} else //y >= meany
+				{
+					if (z[ix]<meanz)
+					{
+						b1.add(ix);
+					} else // z >= meanz
+					{
+						b2.add(ix);
+					}
+				}				
+			}
+		} //for
+		
+		//Przygotowanie zwracanej listy
+		children.add(f1);
+		children.add(f2);
+		children.add(f3);
+		children.add(f4);
+		children.add(b1);
+		children.add(b2);
+		children.add(b3);
+		children.add(b4);
+		
+		return children;
+	}
+}

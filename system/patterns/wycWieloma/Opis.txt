@@ -1,0 +1,2 @@
+Dane do doboru parametrów wycinania twarzy.
+Pliki s¹ po przetworzeniu przez filterData.

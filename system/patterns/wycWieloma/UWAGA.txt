@@ -1,0 +1,1 @@
+Deskryptory wzorców wygenerowano z ~OCTClusteringiem  -> kmeans!!!

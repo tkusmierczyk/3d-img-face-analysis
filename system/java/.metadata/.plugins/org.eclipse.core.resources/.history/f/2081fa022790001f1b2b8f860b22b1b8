@@ -1,0 +1,190 @@
+package pl.quark;
+
+import java.util.LinkedList;
+import java.util.Vector;
+import java.util.Hashtable;
+
+public class cc 
+{
+	/**
+	 * Cluster using connectivity criteria.
+	 * @param noOfPts No of points in set
+	 * @param n1 left side of neighborhood relation 
+	 * @param n2 right side of neighborhood relation (n1.size == n2.size) 
+	 * @return assigned clusters
+	 */
+	public static int[] cluster(int noOfPts, int[] n1, int[] n2)
+	{		
+		Hashtable<Integer, Vector<Integer>> neighbors = new Hashtable<Integer, Vector<Integer>>();
+		
+		if (n1==null)
+		{
+			n1 = new int[0];
+		}
+		if (n2==null)
+		{
+			n2 = new int[0];
+		}
+		
+		//Prepares buffers for points' neighbors:
+		for (int ptNo=0; ptNo<noOfPts; ++ptNo)
+		{
+			neighbors.put(ptNo, new Vector<Integer>() );
+		} //for
+		
+		//Finds neighbors for every point
+		for (int ptNo=0; ptNo<n1.length; ++ptNo)
+		{
+			Vector<Integer> ptNeighbors = neighbors.get( n1[ptNo]-1 );	
+			ptNeighbors.add( n2[ptNo]-1 );			
+		} //for
+		
+		//Spread clusters
+		int[] ptCluster = new int[noOfPts];		
+		for (int ptNo=0, currentCluster=0; ptNo<noOfPts; ++ptNo)
+		{
+			if ( ptCluster[ptNo]==0 )
+			{		
+				++currentCluster;			
+				assignCluster(currentCluster, ptNo, neighbors, ptCluster );
+			} //if 
+		} //for
+		
+		return ptCluster;
+	}
+	
+	private static void assignCluster(int clusterNo, int ptNo,
+			Hashtable<Integer, Vector<Integer>> neighbors,
+			int[] ptCluster)
+	{			
+		ptCluster[ptNo] = clusterNo;
+		
+		//assign cluster to each unassigned neighbor  
+		for (int neighborNo : neighbors.get(ptNo) )
+		{
+			if (ptCluster[neighborNo] == 0)
+			{
+				assignCluster(clusterNo, neighborNo, neighbors, ptCluster);
+			}
+		} //for
+	} 
+	
+	
+	//-------------------------------------------------------------------------
+	
+
+	
+	/**
+	 * 
+	 */
+	public static int[] octClustering(double[] x, double[] y, double[] z, int k)
+	{
+		if ( x==null || y==null || z==null ||
+			x.length != y.length || 
+			y.length != z.length )
+		{
+			return new int[0];
+		}
+		
+		Stat statx =  calcStat(x);
+		Stat staty =  calcStat(y);
+		Stat statz =  calcStat(z);
+				
+		Oct initialCluster = new Oct(statx.min, staty.min, statz.min,
+									 statx.max, staty.max, statz.max,
+									 x.length);
+		
+		LinkedList<Oct> clusters = new LinkedList<Oct>();
+		clusters.add(initialCluster);
+		
+		//Rozdzielaj najwiêksze klastery a¿ ich nie bêdzie wystarczaj¹co du¿o
+		while (clusters.size() < k)
+		{
+			//ZnajdŸ najwiêkszy klaster:
+			Oct theBiggestC = getTheBiggest(clusters);
+			
+			//Rozdziel najwiêkszy klaster:
+			clusters.remove(theBiggestC);
+			clusters.addAll( theBiggestC.split(x, y, z) );
+		} //while
+		
+		//Sklejaj tak d³ugo, a¿ nie bêdzie ich k
+		while ( clusters.size() > k)
+		{
+			//ZnajdŸ najmniejszy klaster:
+			Oct theSmallectC = getTheSmallest(clusters);
+			
+			
+		}
+		
+		
+	}
+
+	private static Oct getTheBiggest(LinkedList<Oct> clusters) 
+	{
+		Oct theBiggestC = clusters.peekFirst();
+		for (Oct c: clusters)
+		{
+			if (c.size() > theBiggestC.size())
+			{
+				theBiggestC = c;
+			}
+		} //for
+		return theBiggestC;
+	}
+	
+	private static Oct getTheSmallest(LinkedList<Oct> clusters) 
+	{
+		Oct theSmallestC = clusters.peekFirst();
+		for (Oct c: clusters)
+		{
+			if (c.size() < theSmallestC.size())
+			{
+				theSmallestC = c;
+			}
+		} //for
+		
+		return theSmallestC;
+	}
+	
+	private static Oct getTheClosest(Oct refC, LinkedList<Oct> clusters)
+	{
+		Oct theClosestC = null;
+		for (Oct c: clusters)
+		{
+			if (theClosestC == null)//theClosestC jeszcze nie ustawiony
+			{
+				if (!c.equals(refC))
+				{
+					theClosestC = c;
+				}
+			} else //theClosestC juz ustawiony wczesniej
+			{
+				if (!c.equals(refC))
+				{
+					
+				}
+			}
+		} //for
+		
+		return theClosestC;
+	}
+	
+	
+	public static  Stat calcStat(double[] data)
+	{
+		Stat s = new Stat();
+		
+		double sum  = 0;
+		for (double element : data )
+		{
+			sum += element;
+			s.min = Math.min(s.min, element);
+			s.max = Math.max(s.max, element);
+		}
+		s.mean = sum / data.length;
+		
+		return s;
+	}	
+	
+}
