@@ -1,4 +1,4 @@
-Code used in my BSC dissertation:
+Code used in my BSc in Engineering dissertation:
 
 **T. Kusmierczyk: Point descriptors in morphological analysis of three-dimensional face images. Warsaw University of Technology 2010.**
 
